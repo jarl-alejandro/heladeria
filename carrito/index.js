@@ -84,10 +84,24 @@
     $('#carrito').slideUp()
   }
 
+  function validarCant () {
+    for (var i in db.productos) {
+      var item = db.productos[i]
+      if (item.cant == 0) {
+        return false
+      }
+    }
+    return false
+  }
+
   function handleSendOrder () {
+    alert(validarCant())
     if (isCliente != '') {
       if (db.productos.length === 0) {
         toast("Ingrese lo que desee comprar")
+      }
+      if (!validarCant()) {
+        toast('Debe ingresar las cantidades de los productos que pidio')
       }
       else {
         $.ajax({
