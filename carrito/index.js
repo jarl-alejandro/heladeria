@@ -40,7 +40,7 @@
   $('.message-mesa').on("click", notifyMesa)
 
   function notifyMesa (e) {
-    toast("Esta mesa ya esta ocupada")    
+    toast("Esta mesa ya esta ocupada")
   }
 
   var $cant = $('#cant-pedido')
@@ -124,7 +124,7 @@
   }
 
   function handleShowCar () {
-    $('#carrito').slideDown()    
+    $('#carrito').slideDown()
   }
 
   function handleMenuCard (e) {
@@ -135,14 +135,18 @@
 
     if (db.mesa != null) {
       pedido = { id, name, precio, tipo }
-      $('#menu-card__name').html(name)
+      /*$('#menu-card__name').html(name)
       $('#name-order').html(name)
-      $('.card-cant--pedido').slideDown()
+      $('.card-cant--pedido').slideDown()*/
+      pedido.cant = parseInt(0)
+      pedido.total = '0.00'
+      carrito.add(pedido)
+      toast('Ya se cargo a su carrito')
     }
     else {
       toast("Selecione primero su mesa")
     }
-    
+
   }
 
   function handleCloseCant () {
@@ -162,7 +166,7 @@
     var code = $categoria.val()
     if (code !== "") {
       var invenatrios = Array.prototype.slice.call(document.querySelectorAll('.inventario-card'))
-      
+
       for (var i in invenatrios) {
         var item = invenatrios[i]
         if (item.dataset.filter === code) $(`[data-id="${item.dataset.id}"]`).slideDown()
@@ -183,8 +187,8 @@
     $email.val('')
     $password.val('')
 
-    $email.removeClass("mui--is-dirty mui--is-touched mui--is-not-empty")    
-    $password.removeClass("mui--is-dirty mui--is-touched mui--is-not-empty")    
+    $email.removeClass("mui--is-dirty mui--is-touched mui--is-not-empty")
+    $password.removeClass("mui--is-dirty mui--is-touched mui--is-not-empty")
   }
 
   function handleAceptLogin () {

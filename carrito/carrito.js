@@ -9,6 +9,22 @@ function Carrito () {
   this.$body = $('#carrito-productos')
 }
 
+function rebuildTotal (iva) {
+  var total = 0
+
+  for (var i in db.productos) {
+    var item = db.productos[i]
+    var vTotal = parseInt(item.cant) * parseFloat(item.precio)
+    total = total + parseFloat(vTotal)
+  }
+
+  $('#sub-carrito').html(total.toFixed(2))
+  var iva = parseInt($('#iva').html()) / 100
+  $('#iva-porcent').html(iva)
+  var pagar = total - iva
+  $('#total-carrito').html(pagar.toFixed(2))
+}
+
 Carrito.prototype = {
   add: function add (pedido) {
     if (this.exists(pedido)) {
@@ -47,16 +63,28 @@ Carrito.prototype = {
       vTotal = vTotal.toFixed(2)
 
       var template = `<tr>
-        <td class='no-padding'>${ item.cant }</td>
+        <td class='no-padding'>
+          <input maxlength="2" onkeypress="numeros()" type='text' class='form-control changeCant'
+            value='${ item.cant }' data-index='${i}'>
+        </td>
         <td class='no-padding'>${ item.name }</td>
         <td class='no-padding'>${ item.precio }</td>
-        <td class='no-padding'>${ vTotal }</td>
+        <td class='no-padding' data-total-index='${i}'>${ item.total }</td>
         <td class='no-padding'><button class="mui-btn mui-btn--danger eliminar flex-center" data-index="${i}">
           <i class="material-icons">delete_forever</i>
         </button></td>
       </tr>`
       this.$body.append(template)
     }
+    $('.changeCant').keyup(function (e) {
+        var index = e.currentTarget.dataset.index
+        var input = $(this)
+        var totalItem = parseInt(input.val()) * parseFloat(item.precio)
+        db.productos[index].cant = parseInt(input.val())
+        db.productos[index].total = totalItem
+        $(`[data-total-index='${index}']`).html(totalItem.toFixed(2))
+        rebuildTotal(iva)
+    })
 
     $('#sub-carrito').html(total.toFixed(2))
     var iva = parseInt($('#iva').html()) / 100
