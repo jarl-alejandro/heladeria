@@ -16,8 +16,18 @@
     .done(function (snap) {
       console.log(snap)
       if (snap.menu != false) {
-        // $("#notify-pedido").html(`La mesa ${ snap.menu.mes_ped } tiene un pedido porfavor atienda`)
-        // $(".notify").slideDown()
+        console.log(snap)
+        for (var i in snap) {
+          var item = snap[i]
+          item.mes_ped
+          $(`[data-id='${item.mes_ped}']`).addClass('mesa-activa-pedido')
+        }
+
+        $("#notify-pedido").html(`La mesa ${ snap.menu.mes_ped } tiene un pedido porfavor atienda`)
+        $(".notify").slideDown()
+      }
+      else {
+        $(`[data-id]`).removeClass('mesa-activa-pedido')
       }
     })
   }, 5000)
@@ -50,7 +60,7 @@
       }
 
       $(this).addClass('mesa-cliente__active')
-      
+
       $('#id').val(snap.menu.cod_ped)
       $('#cedula').val(snap.menu.clie_ped)
       $('#nombre').val(snap.menu.cliente)
@@ -85,7 +95,7 @@
     $("#iva").html("0.00")
     $("#total").html("0.00")
 		$("#id").val("")
-		
+
     $("#nombre").val("")
 		$("#cedula").val("")
 
@@ -115,7 +125,7 @@
 	}
 
 	function handlePrint () {
-		window.open (`./reporte/lista.php`, "_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=50, left=60, width=1200, height=600")		
+		window.open (`./reporte/lista.php`, "_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=50, left=60, width=1200, height=600")
 	}
 
 })()

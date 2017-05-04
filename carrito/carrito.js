@@ -19,7 +19,7 @@ Carrito.prototype = {
 
   exists: function exists (pedido) {
     var flag = false
-    if(db.productos.length === 0) {
+    if (db.productos.length === 0) {
       return true
     }
 
@@ -33,7 +33,7 @@ Carrito.prototype = {
       }
       else flag = true
     }
-    return flag 
+    return flag
   },
 
   build: function build () {
