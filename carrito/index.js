@@ -85,17 +85,18 @@
   }
 
   function validarCant () {
+    var count = 0
     for (var i in db.productos) {
       var item = db.productos[i]
       if (item.cant == 0) {
-        return false
+        count++
       }
     }
-    return false
+    if (count == 0) return true
+    if (count > 0) return false
   }
 
   function handleSendOrder () {
-    alert(validarCant())
     if (isCliente != '') {
       if (db.productos.length === 0) {
         toast("Ingrese lo que desee comprar")
